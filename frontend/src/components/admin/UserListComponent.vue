@@ -1,7 +1,7 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue'
+import { computed, onMounted, ref } from 'vue';
 import axios from "axios";
-import {useAuthStore} from "@/stores/auth.js";
+import { useAuthStore } from "@/stores/auth.js";
 
 const authStore = useAuthStore();
 
@@ -10,6 +10,7 @@ const ROWS_PER_PAGE = 7;
 const searchQuery = ref('');
 const users = ref([]);
 
+// 사용자 목록 가져오기
 const fetchUserList = async () => {
   try {
     const response = await axios.get('http://localhost:8080/api/v1/user/admin', {
@@ -41,22 +42,32 @@ const deleteUser = async (userId) => {
   }
 };
 
+// 검색어를 기반으로 필터링된 사용자 목록 계산
+const filteredUsers = computed(() => {
+  if (!searchQuery.value) {
+    return users.value;
+  }
+  return users.value.filter(user => user.nickname.includes(searchQuery.value));
+});
 
-
+// 현재 페이지에 보여질 사용자 목록 계산
 const displayedUsers = computed(() => {
   const startIdx = (currentUserPage.value - 1) * ROWS_PER_PAGE;
   const endIdx = startIdx + ROWS_PER_PAGE;
-  return users.value.slice(startIdx, endIdx);
+  return filteredUsers.value.slice(startIdx, endIdx);
 });
 
+// 빈 행 수 계산 (페이징을 맞추기 위해)
 const emptyRowsCount = computed(() =>
     ROWS_PER_PAGE - displayedUsers.value.length
 );
 
+// 전체 페이지 수 계산
 const totalUserPages = computed(() =>
-    Math.ceil(users.value.length / ROWS_PER_PAGE)
+    Math.ceil(filteredUsers.value.length / ROWS_PER_PAGE)
 );
 
+// 페이지 변경 함수
 const changeUserPage = (page) => {
   if (page === 'prev' && currentUserPage.value > 1) {
     currentUserPage.value--;
