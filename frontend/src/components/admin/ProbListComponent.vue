@@ -8,22 +8,25 @@ import router from "@/router/index.js";
 import {useAuthStore} from "@/stores/auth.js";
 
 const problemList = ref([]);
-const currentPage = ref(0);
+const currentPage = ref(1);
 const totalPages = ref(0);
 const totalItems = ref(0);
 const keyword = ref('');
 const option = ref('');
+const itemsPerPage = 7;
 
 const authStore = useAuthStore();
 
 const fetchProblemList = async (page = 1) => {
   try {
+    console.log("fetchProblemList 호출 - 페이지:");
     const response = await axios.get(`http://localhost:8080/api/v1/problem/admin`, {
       headers: {
         Authorization: `Bearer ${authStore.accessToken}`
       },
       params: {
         page,
+        size: itemsPerPage,
         keyword: keyword.value,
         option: option.value
       },
@@ -31,62 +34,62 @@ const fetchProblemList = async (page = 1) => {
     });
 
     problemList.value = response.data.problemList;
-    currentPage.value = response.data.currentPage;
-    totalPages.value = response.data.totalPages;
     totalItems.value = response.data.totalItems;
+
+    // 페이지 수 계산
+    totalPages.value = Math.max(1, Math.ceil(totalItems.value / itemsPerPage));
+
+    // 현재 페이지가 totalPages 범위를 초과하지 않도록 조정
+    currentPage.value = Math.min(page, totalPages.value);
   } catch (error) {
     console.error('문제 목록을 불러오는데 문제가 발생했습니다.');
   }
-}
+};
 
+// 검색 함수
 const problemSearch = (searchParams) => {
   keyword.value = searchParams.keyword;
   option.value = searchParams.option;
-  fetchProblemList(1);
-}
+  currentPage.value = 1; // 페이지 번호를 1로 리셋
+  fetchProblemList(1); // 첫 페이지부터 검색 결과를 가져옵니다.
+};
 
-function goToProblemSave(){
-  router.push('/admin/problem')
-}
+// 페이지 변경 함수
+const handlePageChange = (page) => {
+  console.log("페이지 변경 요청:", page);  // 페이지 변경 로그
+  currentPage.value = page;
+  fetchProblemList(page);
+};
 
-// 문제 수정 처리 함수
-
+const goToProblemSave = () => {
+  router.push('/admin/problem');
+};
 
 const handleEditProblem = (problemId) => {
-
-  console.log('수정할 문제 ID:', problemId);
-  // 문제 수정 페이지로 이동
   router.push(`/admin/problem/${problemId}`);
 };
 
-
-// 문제 삭제 처리 함수
 const handleDeleteProblem = async (problemId) => {
-
   try {
     await axios.delete(`http://localhost:8080/api/v1/problem/${problemId}`, {
       headers: {
         Authorization: `Bearer ${authStore.accessToken}`,
       },
     });
-    console.log('문제가 삭제되었습니다:', problemId);
-    await fetchProblemList(currentPage.value); // 페이지를 새로고침하여 목록 업데이트
+    await fetchProblemList(currentPage.value);
   } catch (error) {
     console.error('문제 삭제 중 오류가 발생했습니다.', error);
     alert('문제 삭제에 실패했습니다.');
   }
-
 };
-
 
 onMounted(async () => {
   await fetchProblemList();
-})
-
+});
 </script>
 
 <template>
-  <SearchBar @problemSearch="problemSearch" />
+  <SearchBar @problemSearch="problemSearch"/>
 
   <table class="table">
     <thead>
@@ -104,17 +107,16 @@ onMounted(async () => {
                            @delete-problem="handleDeleteProblem"/>
     </tbody>
   </table>
-  <PageBar :currentPage="currentPage"
+
+  <PageBar v-if="totalPages"
+           :currentPage="currentPage"
            :totalPages="totalPages"
            :totalItems="totalItems"
-           @page-change="problemSearch"/>
+           @page-changed="handlePageChange"/>
 
-  <!-- 문제 등록하기 버튼 -->
   <div class="line">
-
     <button @click="goToProblemSave" class="register-button">문제 등록하기</button>
   </div>
-
 </template>
 
 <style scoped>
@@ -124,20 +126,19 @@ onMounted(async () => {
 }
 
 .table th, .table td {
-  border: 1px solid #ddd;
-  padding: 10px;
+  border: none;
+  padding: 12px;
   text-align: center;
 }
 
 .table th {
-  background-color: #f0f0f0;
-  font-weight: bold;
+  background-color: #1a1b3a;
+  color: white;
+  font-weight: normal;
 }
 
 .line {
   display: flex;
   justify-content: flex-end;
-
 }
-
 </style>
