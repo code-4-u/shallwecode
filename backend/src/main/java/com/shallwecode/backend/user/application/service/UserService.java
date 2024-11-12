@@ -67,11 +67,13 @@ public class UserService implements UserDetailsService {
         }
 
         CoopResDTO coopResDTO = coopDomainService.findCoopByUserId(userId);
-        if(coopResDTO.isHost()){
-            // 해당 호스트 유저의 코딩방을 삭제한다.
-            codingRoomDomainService.deleteCodingRoom(coopResDTO.getCodingRoomId());
-        }else{
-            coopDomainService.deleteByUserId(userId);
+        if(coopResDTO != null) { // 해당 유저 코딩방 존재하는 경우
+            if (coopResDTO.isHost()) {
+                // 해당 호스트 유저의 코딩방을 삭제한다.
+                codingRoomDomainService.deleteCodingRoom(coopResDTO.getCodingRoomId());
+            } else {
+                coopDomainService.deleteByUserId(userId);
+            }
         }
 
         notiDomainService.deleteNotiByUserId(userId);
@@ -122,7 +124,7 @@ public class UserService implements UserDetailsService {
         return userDomainService.findAllInfoUsers(nickname);
     }
 
-
+    @Transactional(readOnly = true)
     public FindUserDetailDTO findUserDetail(Long loginUserId) {
 
         Long allProblemCnt = userDomainService.findAllProblemCnt();
@@ -146,6 +148,7 @@ public class UserService implements UserDetailsService {
         return userDomainService.findRequestUser(loginUserId);
     }
 
+    @Transactional(readOnly = true)
     public FindFriendDetailDTO findFriendDetail(Long userId) {
 
         FindUserDetailDTO userDetailDTO = findUserDetail(userId);
