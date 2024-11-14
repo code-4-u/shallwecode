@@ -97,7 +97,7 @@ export default {
 
 
       try {
-        const response = await axios.post('http://localhost/boot/api/v1/problem', formData,{
+        const response = await axios.post('http://localhost:8080/api/v1/problem', formData,{
           headers: {
             Authorization: `Bearer ${authStore.accessToken}`
           }

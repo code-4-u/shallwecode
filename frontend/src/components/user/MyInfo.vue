@@ -29,7 +29,7 @@ const tempUsername = ref('');
 
 const fetchProfile = async () => {
   try {
-    const response = await getFetch('http://localhost/boot/api/v1/user/profile');
+    const response = await getFetch('http://localhost:8080/api/v1/user/profile');
     profile.value = response.data;
   } catch (error) {
     console.error('프로필을 불러오는데 에러가 발생했습니다.', error.response ? error.response.data : error.message);
@@ -52,7 +52,7 @@ const handleSaveClick = async () => {
       return;
     }
 
-    await putFetch('http://localhost/boot/api/v1/user/nickname', {
+    await putFetch('http://localhost:8080/api/v1/user/nickname', {
       nickname: tempUsername.value
     })
 
@@ -71,11 +71,11 @@ const deleteCookies = () => {
 
 const handleDeleteClick = async () => {
   try {
-    await delFetch('http://localhost/boot/api/v1/user');
+    await delFetch('http://localhost:8080/api/v1/user');
     authStore.logout();
     deleteCookies();
     alert('계정이 탈퇴되었습니다.');
-    window.location.href = "http://localhost";
+    window.location.href = "http://localhost:5173";
   } catch (error) {
     console.error('계정을 탈퇴하는데 에러가 발생했습니다.', error.response ? error.response.data : error.message);
     alert('계정 탈퇴에 실패했습니다.');

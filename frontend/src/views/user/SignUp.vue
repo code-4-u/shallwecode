@@ -13,7 +13,7 @@ const email = ref('');
 const registerUser = async () => {
   try {
     console.log(email.value)
-    await axios.put('http://localhost/boot/api/v1/user',
+    await axios.put('http://localhost:8080/api/v1/user',
         {
           nickname: nickname.value,
           userId: userId.value,

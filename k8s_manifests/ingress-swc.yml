@@ -13,8 +13,7 @@ spec:
   # 사용할 Ingress 컨트롤러의 클래스를 지정. 여기서는 NGINX Ingress 컨트롤러를 사용하도록 설정
   ingressClassName: nginx
   rules:
-    - host: localhost
-      http:
+    - http:
         paths:
           - path: /()(.*)
             # rewriter와 관련된 사이트 주소: https://kubernetes.github.io/ingress-nginx/examples/rewrite/

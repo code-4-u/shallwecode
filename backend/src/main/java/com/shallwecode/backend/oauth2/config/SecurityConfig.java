@@ -102,7 +102,7 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-//        config.addAllowedOrigin("http://localhost:5173"); // 허용할 도메인
+        config.addAllowedOrigin("http://localhost:5173"); // 허용할 도메인
 //        config.addAllowedOrigin("http://localhost:80");
         config.addAllowedHeader("*"); // 모든 헤더 허용
         config.addAllowedMethod("*"); // 모든 HTTP 메소드 허용

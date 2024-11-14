@@ -26,9 +26,9 @@ spring:
 
 springdoc:
   api-docs:
-    path: /boot/v3/api-docs
+    path: /v3/api-docs
   swagger-ui:
-    path: /boot
+    path: /
     operations-sorter: method
     doc-expansion: none
 

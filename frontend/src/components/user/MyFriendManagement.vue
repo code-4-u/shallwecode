@@ -20,7 +20,7 @@ const requests = ref([]);
 
 const fetchMyFriendList = async () => {
   try {
-    const response = await getFetch('http://localhost/boot/api/v1/friend');
+    const response = await getFetch('http://localhost:8080/api/v1/friend');
     friends.value = response.data;
   } catch (error) {
     console.error('친구 목록을 불러오는 중 에러가 발생했습니다.', error.response ? error.response.data : error.message);
@@ -29,7 +29,7 @@ const fetchMyFriendList = async () => {
 
 const fetchMyRequestList = async () => {
   try {
-    const response = await getFetch('http://localhost/boot/api/v1/friend/request');
+    const response = await getFetch('http://localhost:8080/api/v1/friend/request');
     requests.value = response.data;
   } catch (error) {
     console.error('친구 요청 목록을 불러오는 중 에러가 발생했습니다.', error.response ? error.response.data : error.message);
@@ -39,7 +39,7 @@ const fetchMyRequestList = async () => {
 const acceptFriendRequest = async (request) => {
   isLoading.value = true;
   try {
-    await postFetch(`http://localhost/boot/api/v1/friend/request/accept`, {
+    await postFetch(`http://localhost:8080/api/v1/friend/request/accept`, {
       fromUserId: request.userId
     });
     alert('친구 요청을 수락했습니다.');
@@ -56,7 +56,7 @@ const acceptFriendRequest = async (request) => {
 const rejectFriendRequest = async (request) => {
   isLoading.value = true;
   try {
-    await postFetch(`http://localhost/boot/api/v1/friend/request/reject`, {
+    await postFetch(`http://localhost:8080/api/v1/friend/request/reject`, {
       fromUserId: request.userId
     });
     alert('친구 요청을 거절했습니다.');
@@ -73,7 +73,7 @@ const rejectFriendRequest = async (request) => {
 const deleteFriend = async (friend) => {
   isLoading.value = true;
   try {
-    await axios.delete(`http://localhost/boot/api/v1/friend`, {
+    await axios.delete(`http://localhost:8080/api/v1/friend`, {
       params: {
         userId: friend.userId
       },

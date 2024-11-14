@@ -113,14 +113,14 @@ const fetchProblemList = async () => {
     };
 
     if(store.accessToken) {
-      const response = await axios.get('/boot/api/v1/problem', { params,
+      const response = await axios.get('http://localhost:8080/api/v1/problem', { params,
         headers: {
           Authorization: `Bearer ${store.accessToken}`
         }
       });
       problems.value = response.data;
     } else {
-      const response = await axios.get('/boot/api/v1/problem/guest', { params });
+      const response = await axios.get('http://localhost:8080/api/v1/problem/guest', { params });
       problems.value = response.data;
     }
   } catch (error) {
@@ -141,7 +141,7 @@ const handleProblemClick = async (problem) => {
   const result = confirm("해당 문제를 도전 하시겠습니까? \n확인을 누르시면 새로운 코딩 협업창으로 들어갑니다.");
   if(result){
     try {
-      const response = await axios.post(`http://localhost/boot/api/v1/codingroom/${problem.problemId}`, {} , {
+      const response = await axios.post(`http://localhost:8080/api/v1/codingroom/${problem.problemId}`, {} , {
         headers: {
           Authorization: `Bearer ${store.accessToken}`
         }

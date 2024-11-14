@@ -29,7 +29,7 @@ const authObjectInfo = {
 }
 
 const fetchProblemInfo = async (problemId) => {
-  const response = await axios.get(`http://localhost/boot/api/v1/problem/${problemId}`, {
+  const response = await axios.get(`http://localhost:8080/api/v1/problem/${problemId}`, {
     headers : {
       Authorization: `Bearer ${authObjectInfo.accessToken}`
     }

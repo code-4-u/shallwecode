@@ -9,7 +9,7 @@ const codingRooms = ref([]);
 
 const fetchMyCodingRoomList = async () => {
   try {
-    const response = await getFetch('http://localhost/boot/api/v1/codingroom');
+    const response = await getFetch('http://localhost:8080/api/v1/codingroom');
     codingRooms.value = response.data;
   } catch (error) {
     console.error('참여중인 코딩방 목록을 불러오는 중 에러가 발생했습니다.', error.response ? error.response.data : error.message);

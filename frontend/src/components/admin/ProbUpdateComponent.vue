@@ -72,7 +72,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost/boot/api/v1/problem/${problemId}`, {
+        const response = await axios.get(`http://localhost:8080/api/v1/problem/${problemId}`, {
           headers: {
             Authorization: `Bearer ${authStore.accessToken}`,
           },
@@ -105,7 +105,7 @@ export default {
         testcases: testCases.value,
       };
       try {
-        const response = await axios.put(`http://localhost/boot/api/v1/problem/${problemId}`, formData, {
+        const response = await axios.put(`http://localhost:8080/api/v1/problem/${problemId}`, formData, {
           headers: {
             Authorization: `Bearer ${authStore.accessToken}`,
           },

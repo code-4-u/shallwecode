@@ -27,10 +27,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
             if (oAuth2User.getAuth() == AuthType.GUEST) {
-                response.sendRedirect("http://localhost/sign-up?userId=" + oAuth2User.getUserId()); // 회원가입 창에는 토큰 없이 보냄
+                response.sendRedirect("http://localhost:5173/sign-up?userId=" + oAuth2User.getUserId()); // 회원가입 창에는 토큰 없이 보냄
             } else {
                 loginSuccess(response, oAuth2User, oAuth2User.getUserId());
-                response.sendRedirect("http://localhost"); // 완전 로그인 성공 시 토큰을 발급함
+                response.sendRedirect("http://localhost:5173"); // 완전 로그인 성공 시 토큰을 발급함
             }
         } catch (Exception e) {
             log.error("Authentication success handling failed", e);

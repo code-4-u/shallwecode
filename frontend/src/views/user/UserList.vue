@@ -15,7 +15,7 @@ const profile = ref('');
 
 const fetchProfile = async () => {
   try {
-    const response = await getFetch('http://localhost/boot/api/v1/user/profile');
+    const response = await getFetch('http://localhost:8080/api/v1/user/profile');
     profile.value = response.data;
   } catch (error) {
     console.error('프로필을 불러오는데 에러가 발생했습니다.', error.response ? error.response.data : error.message);
@@ -41,7 +41,7 @@ const friendsList = ref([]);
 
 const fetchFriendList = async () => {
   try {
-    const response = await getFetch('http://localhost/boot/api/v1/friend');
+    const response = await getFetch('http://localhost:8080/api/v1/friend');
     friendsList.value = response.data;
   } catch (error) {
     console.error('친구 목록을 가져오는 중 오류가 발생했습니다:', error);
@@ -50,7 +50,7 @@ const fetchFriendList = async () => {
 
 const handleRequestClick = async (toUserId) => {
   try {
-    await postFetch('http://localhost/boot/api/v1/friend/request', {
+    await postFetch('http://localhost:8080/api/v1/friend/request', {
       toUserId: toUserId
     });
     await fetchUserList();
@@ -93,7 +93,7 @@ const users = ref([]);
 
 const fetchUserList = async () => {
   try {
-    const response = await getFetch('http://localhost/boot/api/v1/user/list');
+    const response = await getFetch('http://localhost:8080/api/v1/user/list');
     users.value = response.data;
   } catch (error) {
     console.error('회원 목록을 불러오는 중 에러가 발생했습니다.', error.response ? error.response.data : error.message);

@@ -18,7 +18,7 @@ const authStore = useAuthStore();
 
 const fetchProblemList = async (page = 1) => {
   try {
-    const response = await axios.get(`http://localhost/boot/api/v1/problem/admin`, {
+    const response = await axios.get(`http://localhost:8080/api/v1/problem/admin`, {
       headers: {
         Authorization: `Bearer ${authStore.accessToken}`
       },
@@ -62,7 +62,7 @@ const handleEditProblem = (problemId) => {
 const handleDeleteProblem = async (problemId) => {
 
   try {
-    await axios.delete(`http://localhost/boot/api/v1/problem/${problemId}`, {
+    await axios.delete(`http://localhost:8080/api/v1/problem/${problemId}`, {
       headers: {
         Authorization: `Bearer ${authStore.accessToken}`,
       },

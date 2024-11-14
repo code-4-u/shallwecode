@@ -11,7 +11,7 @@ const isSearching = ref(false);
 const fetchUserList = async (nickname = '') => {
   try {
     isSearching.value = true;
-    const response = await getFetch(`http://localhost/boot/api/v1/user/admin?nickname=${encodeURIComponent(nickname)}`);
+    const response = await getFetch(`http://localhost:8080/api/v1/user/admin?nickname=${encodeURIComponent(nickname)}`);
     users.value = response.data;
   } catch (error) {
     console.error('회원 목록을 불러오는 중 에러가 발생했습니다.', error.response ? error.response.data : error.message);
@@ -37,8 +37,8 @@ const deleteUser = async (userId) => {
   if (!confirmed) return;
 
   try {
-    await delFetch(`http://localhost/boot/api/v1/user/${userId}`);
-    await delFetch(`http://localhost/boot/api/v1/user/${userId}`);
+    await delFetch(`http://localhost:8080/api/v1/user/${userId}`);
+    await delFetch(`http://localhost:8080/api/v1/user/${userId}`);
     alert("해당 사용자의 회원 정보가 삭제되었습니다.")
     // 삭제 성공 후 사용자 목록을 다시 로드
     await fetchUserList();

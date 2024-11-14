@@ -27,7 +27,7 @@ const webSocket = ref({});
 // 필요한 정보 조회, 협업 친구 조회
 const communicateCoopInfo = async(codingRoomId) => {
   try {
-    const response = await axios.get(`http://localhost/boot/api/v1/codingroom/friendList/${codingRoomId}`, {
+    const response = await axios.get(`http://localhost:8080/api/v1/codingroom/friendList/${codingRoomId}`, {
       headers: {
         Authorization: `Bearer ${tempObjectInfo.accessToken}`
       }
@@ -60,7 +60,7 @@ const communicateCoopInfo = async(codingRoomId) => {
 // 친구추가 테스트
 const updateInviteCoopInfo = async(codingRoomId) => {
   try {
-    const response = await axios.get(`http://localhost/boot/api/v1/codingroom/friendList/${codingRoomId}`, {
+    const response = await axios.get(`http://localhost:8080/api/v1/codingroom/friendList/${codingRoomId}`, {
       headers: {
         Authorization: `Bearer ${tempObjectInfo.accessToken}`
       }
@@ -143,7 +143,7 @@ const paginatedFriends = computed(() => {
 // 친구 목록 조회 함수
 const fetchFriends = async () => {
   try {
-    const response = await axios.get(`http://localhost/boot/api/v1/friend`, {
+    const response = await axios.get(`http://localhost:8080/api/v1/friend`, {
       headers: {
         Authorization: `Bearer ${tempObjectInfo.accessToken}`
       }
@@ -166,7 +166,7 @@ const leaveCoop = async () => {
   // 탈퇴 로직 작성 (예: API 호출)
   if(confirm('코딩방을 나가시겠습니까?')){
     try {
-      const response = await axios.delete(`http://localhost/boot/api/v1/codingroom/${props.codingRoomId}/friend` ,{
+      const response = await axios.delete(`http://localhost:8080/api/v1/codingroom/${props.codingRoomId}/friend` ,{
         headers: {
           Authorization: `Bearer ${tempObjectInfo.accessToken}`
         }
@@ -192,7 +192,7 @@ const inviteCoop = async (userId) => {
 
   // 초대 로직 작성 (예: API 호출)
   try {
-    const response = await axios.post(`http://localhost/boot/api/v1/codingroom/${props.codingRoomId}/friend/${userId}`,{} ,{
+    const response = await axios.post(`http://localhost:8080/api/v1/codingroom/${props.codingRoomId}/friend/${userId}`,{} ,{
       headers: {
         Authorization: `Bearer ${tempObjectInfo.accessToken}`
       }
@@ -214,7 +214,7 @@ const inviteCoop = async (userId) => {
 
 // 웹 소켓 연결 함수
 const connectWebSocket = (codingRoomId) => {
-  webSocket.value = new WebSocket(`ws://localhost/boot/ws/coding-room/${codingRoomId}`);
+  webSocket.value = new WebSocket(`ws://localhost:8080/ws/coding-room/${codingRoomId}`);
   // 연결시 온, 오프라인 구별을 위해 정보를 송신
   webSocket.value.onopen = () => {
     const statusCheck = {
